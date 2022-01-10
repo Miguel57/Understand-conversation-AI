@@ -1,5 +1,5 @@
 import streamlit as st
-import f_gpt3 as f_gpt3
+import f_gpt3_secrets as f_gpt3
 
 
 # define parameters
@@ -30,6 +30,7 @@ st.set_page_config(
 #----------------------------------------------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------------------------------------------
 # sidebar information
+st.sidebar.markdown("<h3 style='text-align: center; font-size:56px;'<p>&#129302;</p></h3>", unsafe_allow_html=True)
 st.sidebar.markdown("-----------------------------------")
 st.sidebar.markdown(description_app)
 st.sidebar.markdown("Made with 💙 by [juan-csv](https://github.com/juan-csv)")
