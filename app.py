@@ -1,6 +1,7 @@
 import streamlit as st
 import f_gpt3
 
+
 # define parameters
 LIST_MODE = ["TITLE" ,"SUMMARY", "TAGS", "SENTIMENT"]
 # Select Engine ---> Ada, Babbage, Curie, Davinci

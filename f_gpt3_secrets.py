@@ -1,47 +1,18 @@
 import re
 import openai
 # get configuration
-import json
 # use for get number of tokens
 from transformers import GPT2Tokenizer
 # essentials
 import numpy as np
 import math
-
-#
-
-
-# load configuration
-with open('config.json') as json_file:
-    config = json.load(json_file)
-
-# create TOML file with from config.json
-def create_toml_file():
-    with open('config.json') as json_file:
-        config = json.load(json_file)
-
-    with open('config.toml', 'w') as toml_file:
-        toml_file.write("[gpt3]\n")
-        toml_file.write("engine_Davinci 
-        toml_file.write("engine = \"{}\"\n".format(config["GPT3"]["ENGINE"]))
-        toml_file.write("model = \"{}\"\n".format(config["GPT3"]["MODEL"]))
-        toml_file.write("tokenizer = \"{}\"\n".format(config["GPT3"]["TOKENIZER"]))
-        toml_file.write("max_tokens = {}\n".format(config["GPT3"]["MAX_TOKENS"]))
-        toml_file.write("[functions]\n")
-        toml_file.write("[functions.tags]\n")
-        toml_file.write("max_tokens = {}\n".format(config["FUNCTIONS"]["TAGS"]["MAX_TOKENS"]))
-        toml_file.write("prompt = [\"{}\", \"{}\"]\n".format(config["FUNCTIONS"]["TAGS"]["PROMPT"][0], config["FUNCTIONS"]["TAGS"]["PROMPT"][1]))
-        toml_file.write("[functions.description]\n")
-        toml_file.write("max_tokens = {}\n".format(config["FUNCTIONS"]["DESCRIPTION"]["MAX_TOKENS"]))
-        toml_file.write("prompt =
-
-        
+# get secrets
+import streamlit as st
 
 
 # instance tokenizer & api
-openai.api_key = config["GPT3"]["OPENAI_API_KEY"] #os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["GPT3"]["OPENAI_API_KEY"] #os.getenv("OPENAI_API_KEY")
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-
 
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
@@ -77,7 +48,7 @@ def reduce_tokens_for_gpt3(input_text_gpt3):
     dots_idx = find_words_endswith_dot(input_text_gpt3)
     for id in dots_idx:
         number_tokens_text = get_number_of_tokens(input_text_gpt3[:id+1])
-        if number_tokens_text < config["GPT3"]["MAX_TOKENS"]:
+        if number_tokens_text < st.secrets["GPT3"]["MAX_TOKENS"]:
             best_id_dot = id
 
     if best_id_dot != 0:
@@ -87,7 +58,7 @@ def reduce_tokens_for_gpt3(input_text_gpt3):
     else: # if text dont have period ---> force reduce
         reduce_text = ""
         for word in input_text_gpt3.split(" "):
-            if get_number_of_tokens(reduce_text) < config["GPT3"]["MAX_TOKENS"] - 1:
+            if get_number_of_tokens(reduce_text) < st.secrets["GPT3"]["MAX_TOKENS"] - 1:
                 reduce_text  = reduce_text + " " +  word
             else:
                 break
@@ -99,18 +70,18 @@ def get_number_of_tokens(text):
 #--------------------------------------------------------------------------------
 # Main function
 def get_ingerence_GPT3(input_text, MODE, ENGINE):
-    # number of tokens would be less than config["GPT3"]["MAX_TOKENS"]
+    # number of tokens would be less than st.secrets["GPT3"]["MAX_TOKENS"]
     reduce_text = reduce_tokens_for_gpt3(input_text)
 
     # define prompt
-    command = config["FUNCTIONS"][MODE]["PROMPT"]
+    command = st.secrets["FUNCTIONS"][MODE]["PROMPT"]
     prompt = command[0] + reduce_text + command[1]
 
     response_raw = openai.Completion.create(
-        engine= config["GPT3"]["ENGINE_MODEL"][ENGINE]["MODEL"],
+        engine= st.secrets["GPT3"]["ENGINE_MODEL"][ENGINE]["MODEL"],
         prompt=prompt,
         temperature=0,
-        max_tokens=config["FUNCTIONS"][MODE]["MAX_TOKENS"],
+        max_tokens=st.secrets["FUNCTIONS"][MODE]["MAX_TOKENS"],
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0,
@@ -128,7 +99,7 @@ def get_ingerence_GPT3(input_text, MODE, ENGINE):
 
     # get price for prediction
     tokens_1000 = math.ceil( get_number_of_tokens( reduce_text + " " + response_raw["choices"][0]["text"] )/1000 )
-    price = tokens_1000 * config["GPT3"]["ENGINE_MODEL"][ENGINE]["PRICE"] # USD
+    price = tokens_1000 * st.secrets["GPT3"]["ENGINE_MODEL"][ENGINE]["PRICE"] # USD
 
     return response, price
 
