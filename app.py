@@ -1,5 +1,5 @@
 import streamlit as st
-import f_gpt3
+import f_gpt3_secrets as f_gpt3
 
 
 # define parameters
