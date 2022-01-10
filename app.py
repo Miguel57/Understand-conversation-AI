@@ -8,9 +8,10 @@ LIST_MODE = ["TITLE" ,"SUMMARY", "TAGS", "SENTIMENT"]
 ENGINE = "Davinci"
 
 
-TITLE = "Call center app"
 Name_app = "Understand conversation"
-description_app = f"[{Name_app}](https://github.com/juan-csv/Understand-conversation-AI) "\
+REPO = "https://github.com/juan-csv/Understand-conversation-AI"
+
+description_app = f"[{Name_app}]({REPO}) "\
                     f"structures data in title, summary, tags, sentiment "\
                     f"given a fragment of a conversation using GPT3. "
 
@@ -22,10 +23,12 @@ EXAMPLE = EXAMPLE.replace("Client","\nClient")[1:]
 
 
 st.set_page_config(
-    page_title=TITLE,
+    page_title=Name_app,
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+
 
 #----------------------------------------------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------------------------------------------
@@ -44,7 +47,7 @@ expander.write("I'd love your feedback :smiley: Want to collaborate? Develop a p
 #----------------------------------------------------------------------------------------------------------------------
 
 # add title
-st.title(TITLE)
+st.title(Name_app)
 
 # divide interface in two columns
 col1, col2 = st.columns([6,4])
