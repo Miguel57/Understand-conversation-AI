@@ -80,4 +80,4 @@ with col2:
         st.markdown(f"**SENTIMENT** : {res['SENTIMENT']}", unsafe_allow_html=True)
         # show result
         st.success(Res)
-        head_text.text("Done")
+        head_text.text("Done!!!")
