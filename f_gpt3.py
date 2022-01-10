@@ -8,35 +8,10 @@ from transformers import GPT2Tokenizer
 import numpy as np
 import math
 
-#
-
 
 # load configuration
 with open('config.json') as json_file:
     config = json.load(json_file)
-
-# create TOML file with from config.json
-def create_toml_file():
-    with open('config.json') as json_file:
-        config = json.load(json_file)
-
-    with open('config.toml', 'w') as toml_file:
-        toml_file.write("[gpt3]\n")
-        toml_file.write("engine_Davinci 
-        toml_file.write("engine = \"{}\"\n".format(config["GPT3"]["ENGINE"]))
-        toml_file.write("model = \"{}\"\n".format(config["GPT3"]["MODEL"]))
-        toml_file.write("tokenizer = \"{}\"\n".format(config["GPT3"]["TOKENIZER"]))
-        toml_file.write("max_tokens = {}\n".format(config["GPT3"]["MAX_TOKENS"]))
-        toml_file.write("[functions]\n")
-        toml_file.write("[functions.tags]\n")
-        toml_file.write("max_tokens = {}\n".format(config["FUNCTIONS"]["TAGS"]["MAX_TOKENS"]))
-        toml_file.write("prompt = [\"{}\", \"{}\"]\n".format(config["FUNCTIONS"]["TAGS"]["PROMPT"][0], config["FUNCTIONS"]["TAGS"]["PROMPT"][1]))
-        toml_file.write("[functions.description]\n")
-        toml_file.write("max_tokens = {}\n".format(config["FUNCTIONS"]["DESCRIPTION"]["MAX_TOKENS"]))
-        toml_file.write("prompt =
-
-        
-
 
 # instance tokenizer & api
 openai.api_key = config["GPT3"]["OPENAI_API_KEY"] #os.getenv("OPENAI_API_KEY")
