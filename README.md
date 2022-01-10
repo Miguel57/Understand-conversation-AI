@@ -10,7 +10,7 @@ The code is tested in python 3.7.8 and macOS Catalina
 <pre><code>streamlit run app.py </code></pre>
 
 
-![alt text](https://github.com/juan-csv/Understand-conversation-AI/blob/main/media/app.gif)
+![alt text](https://github.com/juan-csv/Understand-conversation-AI/blob/main/Media/app.gif)
 
 
 
